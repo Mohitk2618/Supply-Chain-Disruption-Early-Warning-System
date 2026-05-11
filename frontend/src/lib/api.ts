@@ -50,7 +50,23 @@ async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
       "Content-Type": "application/json",
       ...(init?.headers ?? {}),
     },
-    cache: "no-store",
+    ...(method === "GET"
+
+    ? {
+
+        next: {
+
+          revalidate: 300,
+
+        },
+
+      }
+
+    : {
+
+        cache: "no-store",
+
+      }),
   })
     .then(async (response) => {
       if (!response.ok) {
